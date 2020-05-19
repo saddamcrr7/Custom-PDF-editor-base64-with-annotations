@@ -14,6 +14,7 @@
 @import '01-settings/settings.spacing';
 @import '01-settings/settings.typography';
 @import '01-settings/settings.z-layers';
+@import '01-settings/settings.editor-navbar';
 
 // Optional bootstrap Files
 @import "vendor/bootstrap/scss/_reboot";
@@ -34,11 +35,6 @@
 // 03. Generic
 @import '03-generic/generic.selection';
 
-// 99. Utilities
-@import '99-utilities/utilities.clearfix';
-@import '99-utilities/utilities.text';
-@import '99-utilities/utilities.visibility';
-
 // 04. Elements
 @import '04-elements/elements.all';
 @import '04-elements/elements.body';
@@ -49,4 +45,10 @@
 
 
 // 06. Components
+@import './06-components/components.editor-navbar';
 
+
+// 99. Utilities
+@import '99-utilities/utilities.clearfix';
+@import '99-utilities/utilities.text';
+@import '99-utilities/utilities.visibility';

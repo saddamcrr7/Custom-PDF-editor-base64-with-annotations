@@ -1,0 +1,83 @@
+.c-editor-navbar {
+  background: $color-primary;
+  position: fixed;
+
+  @if $editor-navbar-positon == 'top' {
+    top: 0;
+    left: 0;
+    right: 0;
+
+    &__container {
+      @include make-container();
+      max-width: 1920px;
+    }
+  
+    &__row {
+      display: flex;
+    }
+  }
+
+  @if $editor-navbar-positon == 'bottom' {
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    &__container {
+      @include make-container();
+      max-width: 1920px;
+    }
+  
+    &__row {
+      display: flex;
+    }
+  }
+
+  @if $editor-navbar-positon == 'left' {
+    top: 0;
+    left: 0;
+    bottom: 0;
+  }
+
+  @if $editor-navbar-positon == 'right' {
+    top: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  &__item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      padding: 20px 30px;
+
+      &:hover {
+          background: rgba($black, 0.3);
+      }
+  }
+
+  &__item-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      width: 30px;
+      height: 30px;
+
+      &,
+      path {
+        fill: $color-golden !important;
+        stroke: $color-golden !important;
+      }
+    }
+  }
+
+  &__item-text{
+      font-size: 15px;
+      letter-spacing: 1px;
+      color: $white;
+      font-weight: $font-weight-bold;
+      text-transform: capitalize;
+  }
+}
