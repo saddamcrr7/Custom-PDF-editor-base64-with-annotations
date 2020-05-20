@@ -4,28 +4,22 @@
   background: $color-grey;
   height: 100vh;
 
-  &__container {
-    @include make-container();
-    max-width: 1920;
+  &__sitebar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: calc(100vh - 72px);
   }
 
-  &__row {
-    @include make-row();
-  }
-
-  &__col {
-    position: relative;
-    width: 100%;
-
-    &--left {
-      max-width: 200px;
-      flex: 0 0 200px;
-    }
-
-    &--right {
-        max-width: calc(100% - 200px);
-        flex: 0 0 calc(100% - 200px);
-    }
+  &__sitebar-toggler {
+    position: absolute;
+    top: 50%;
+    right: -20px;
+    width: 20px;
+    height: 40px;
+    background: $color-primary;
+    border-radius: 0 10px 10px 0;
+    cursor: pointer;
   }
 
   &__pages {
@@ -61,5 +55,6 @@
       align-items: center;
       justify-content: center;
       overflow: auto;
+      padding-left: 200px;
   }
 }

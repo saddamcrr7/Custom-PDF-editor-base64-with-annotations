@@ -41,6 +41,11 @@ setTimeout(() => {
       index + 1,
       `.o-viewer__page-canvas-${index}`
     )
+
+    canvas.addEventListener('click', ()=> {
+      mainViewer.pageRender(viewerPdfData, index+1, '.o-viewer__main-canvas')
+    })
   }
+
 
 }, 500)
