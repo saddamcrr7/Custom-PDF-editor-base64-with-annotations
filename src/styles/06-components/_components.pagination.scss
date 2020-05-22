@@ -1,0 +1,22 @@
+.c-pagination{
+    display: flex;
+    align-items: center;
+
+    &__btn {
+        cursor: pointer;
+        svg {
+            width: 30px;
+            height: 30px;
+            fill: $white;
+        }
+
+        &--prev svg{
+            transform: rotate(180deg);
+        }
+    }
+
+  &__count {
+      font-size: 15px;
+      color: $white;
+  }
+}

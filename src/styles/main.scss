@@ -14,7 +14,6 @@
 @import '01-settings/settings.spacing';
 @import '01-settings/settings.typography';
 @import '01-settings/settings.z-layers';
-@import '01-settings/settings.editor-navbar';
 
 // Optional bootstrap Files
 @import "vendor/bootstrap/scss/_reboot";
@@ -43,9 +42,11 @@
 
 // 05. Objects
 @import './05-objects/objects.viewer';
+@import './05-objects/objects.main';
 
 // 06. Components
 @import './06-components/components.editor-navbar';
+@import './06-components/components.pagination';
 
 
 // 99. Utilities
