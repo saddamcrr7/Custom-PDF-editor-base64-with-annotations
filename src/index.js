@@ -6,6 +6,7 @@ import {
 import PdfDataProcess from './scripts/Pdf-data-process'
 import demoData from './scripts/util/demoData'
 import Viewer from './scripts/viewer'
+import Pagination from './scripts/components/pagination'
 
 window.addEventListener('load', () => {
   let viewerPdfData = new PdfDataProcess(demoData)
@@ -21,6 +22,13 @@ window.addEventListener('load', () => {
 
   setTimeout(() => {
     const pageNumber = viewerPdfData.pdf.numPages
+
+    viewerPdfData.pdf.getMetadata().then(metadata => {
+      document.querySelector('.o-viewer__doc-name').innerHTML =
+        `${metadata.info.Title}`
+    }).catch(function (err) {
+      console.log(err);
+    });
 
     for (let index = 0; index < pageNumber; index++) {
       const li = document.createElement('li')
@@ -47,8 +55,20 @@ window.addEventListener('load', () => {
       canvas.addEventListener('click', () => {
         mainViewer.pageRender(viewerPdfData, index + 1,
           '.o-viewer__main-canvas')
+        const countElm = document.querySelector(
+          '.c-pagination__count')
+        countElm.innerHTML = `${index+1} / ${pageNumber}`
       })
     }
+
+    const pagePagination = new Pagination(pageNumber, (index) => {
+      mainViewer.pageRender(viewerPdfData, index,
+        '.o-viewer__main-canvas')
+      const pages = document.querySelectorAll('.o-viewer__page')
+      pages.forEach(element => element.classList.remove(
+        'is-active'));
+      pages[index - 1].classList.add('is-active')
+    })
 
   }, 500)
 
