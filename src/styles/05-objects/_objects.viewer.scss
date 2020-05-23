@@ -1,4 +1,6 @@
 .o-viewer {
+  $root: &;
+
   width: 100%;
   position: relative;
   background: $color-grey;
@@ -85,21 +87,36 @@
     overflow-y: auto;
   }
 
-  &__page {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-
   &__page-canvas {
     border: 1px solid $color-grey;
     margin-bottom: 10px;
     cursor: pointer;
+    @include basic-transition();
   }
+
+  &__page {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+
+    &.is-active {
+      #{$root}__page-canvas{
+        border-color: $color-golden;
+      }
+
+      #{$root}__page-index {
+        color: $color-golden;
+        font-weight: $font-weight-bold;
+      }
+    }
+  }
+
 
   &__page-index {
     font-size: 15px;
+    @include basic-transition();
   }
 
   &__main {

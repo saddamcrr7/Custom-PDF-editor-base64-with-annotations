@@ -4,7 +4,7 @@ import {
   PDFDocument
 } from 'pdf-lib'
 import PdfDataProcess from './scripts/Pdf-data-process'
-import demoData from './scripts/util/demoData'
+import demoData from './scripts/data/demoData'
 import Viewer from './scripts/viewer'
 import Pagination from './scripts/components/pagination'
 
@@ -24,11 +24,24 @@ window.addEventListener('load', () => {
     const pageNumber = viewerPdfData.pdf.numPages
 
     viewerPdfData.pdf.getMetadata().then(metadata => {
-      document.querySelector('.o-viewer__doc-name').innerHTML =
-        `${metadata.info.Title}`
-    }).catch(function (err) {
-      console.log(err);
+      const nameElem = document.querySelector('.o-viewer__doc-name')
+      if (metadata.info.Title == undefined) {
+        nameElem.innerHTML = `Undefined This Doc Name`
+      } else {
+        nameElem.innerHTML = `${metadata.info.Title}`
+      }
+    }).catch((err) => {
+      console.error(err);
     });
+
+    const pagePagination = new Pagination(pageNumber, (index) => {
+      mainViewer.pageRender(viewerPdfData, index,
+        '.o-viewer__main-canvas')
+      const pages = document.querySelectorAll('.o-viewer__page')
+      pages.forEach(element => element.classList.remove(
+        'is-active'));
+      pages[index - 1].classList.add('is-active')
+    })
 
     for (let index = 0; index < pageNumber; index++) {
       const li = document.createElement('li')
@@ -45,7 +58,8 @@ window.addEventListener('load', () => {
       li.append(canvas)
       li.append(div)
       viewerPageElm.append(li)
-
+      document.querySelectorAll('.o-viewer__page')[0].classList.add(
+        'is-active')
       pagesViewer.pageRender(
         viewerPdfData,
         index + 1,
@@ -58,17 +72,18 @@ window.addEventListener('load', () => {
         const countElm = document.querySelector(
           '.c-pagination__count')
         countElm.innerHTML = `${index+1} / ${pageNumber}`
+
+        const pages = document.querySelectorAll('.o-viewer__page')
+        pages.forEach(element => element.classList.remove(
+          'is-active'));
+        pages[index].classList.add('is-active')
+
+        pagePagination.index = index + 1
+
       })
     }
 
-    const pagePagination = new Pagination(pageNumber, (index) => {
-      mainViewer.pageRender(viewerPdfData, index,
-        '.o-viewer__main-canvas')
-      const pages = document.querySelectorAll('.o-viewer__page')
-      pages.forEach(element => element.classList.remove(
-        'is-active'));
-      pages[index - 1].classList.add('is-active')
-    })
+
 
   }, 500)
 
