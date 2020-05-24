@@ -43,10 +43,12 @@
 // 05. Objects
 @import './05-objects/objects.viewer';
 @import './05-objects/objects.main';
+@import './05-objects/objects.editor-pad';
 
 // 06. Components
 @import './06-components/components.editor-navbar';
 @import './06-components/components.pagination';
+@import './06-components/components.annotation';
 
 
 // 99. Utilities

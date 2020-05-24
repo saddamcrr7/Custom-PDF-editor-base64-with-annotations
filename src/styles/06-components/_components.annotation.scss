@@ -1,0 +1,66 @@
+.c-annotation {
+    border: 1px solid $color-grey;
+    position: absolute;
+    top: 200px;
+    left: 200px;
+
+    &__input {
+        background: none;
+        border: none;
+        width: 100%;
+        height: 100%;
+        padding: 10px;
+
+        &:focus {
+            outline: none;
+        }
+    }
+
+    &__options {
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        display: flex;
+        align-items: center;
+        background: transparentize($color-grey, 0.05);
+        border-radius: 5px 5px 0 0;
+        transform: translateX(-50%);
+    }
+
+    &__option {
+        cursor: pointer;
+        padding: 7px;
+
+        svg {
+            width: 20px;
+            height: 20px;
+            fill: $color-golden;
+        }
+
+        &:first-child {
+            border-right: 1px solid $color-grey;
+        }
+    }
+
+    &__resize {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        border-radius: 25px;
+        bottom: 0;
+        right: 0;
+        transform: translate(50%, 50%);
+        background: transparentize($color-grey, 0.05);
+        cursor: pointer;
+
+        svg {
+            fill: $white;
+            width: 20px;
+            height: 20px;
+            transform: rotate(90deg);
+        }
+    }
+}

@@ -7,6 +7,7 @@ import PdfDataProcess from './scripts/Pdf-data-process'
 import demoData from './scripts/data/demoData'
 import Viewer from './scripts/viewer'
 import Pagination from './scripts/components/pagination'
+import Editor from './scripts/Editor'
 
 window.addEventListener('load', () => {
   let viewerPdfData = new PdfDataProcess(demoData)
@@ -83,7 +84,7 @@ window.addEventListener('load', () => {
       })
     }
 
-
+    const editor = new Editor()
 
   }, 500)
 

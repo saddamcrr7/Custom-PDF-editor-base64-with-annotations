@@ -119,6 +119,10 @@
     @include basic-transition();
   }
 
+  &__main-container {
+    position: relative;
+  }
+
   &__main {
     height: calc(100vh - 134px);
     display: flex;
