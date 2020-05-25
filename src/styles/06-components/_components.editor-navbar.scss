@@ -22,7 +22,7 @@
     cursor: pointer;
     padding: 10px 15px;
 
-    &:hover {
+    &:hover, &.is-active {
       background: rgba($black, 0.3);
     }
   }

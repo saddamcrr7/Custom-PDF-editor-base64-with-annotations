@@ -1,0 +1,71 @@
+{
+  "_from": "touchevent.js",
+  "_id": "touchevent.js@1.0.0",
+  "_inBundle": false,
+  "_integrity": "sha512-KugcUCBkietXl16vnHgL4UlV+r9XqxeoZBvA4GZTfTTawod6CujKdos0CJHFKuJ4+FsgKx5HNEokAPBtkGu+7g==",
+  "_location": "/touchevent.js",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "touchevent.js",
+    "name": "touchevent.js",
+    "escapedName": "touchevent.js",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/touchevent.js/-/touchevent.js-1.0.0.tgz",
+  "_shasum": "ef2f333df5541249f56dcc62c87435c34b5df9f1",
+  "_spec": "touchevent.js",
+  "_where": "/home/liimonx/Desktop/clientProject/Custom-PDF-editor-base64-with-annotations",
+  "author": {
+    "name": "Limon Khan"
+  },
+  "bugs": {
+    "url": "https://github.com/liimonx/TouchEvent/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "lodash": "^4.17.11"
+  },
+  "deprecated": false,
+  "description": "TouchEvent is just a simple Script that will allow supporting touch event on all devices.",
+  "devDependencies": {
+    "babel-core": "6.26.3",
+    "babel-loader": "7.1.4",
+    "babel-preset-env": "1.7.0",
+    "breakpoint-sass": "^2.7.1",
+    "clean-webpack-plugin": "0.1.19",
+    "cross-env": "5.1.6",
+    "html-webpack-plugin": "3.2.0",
+    "url-loader": "1.0.1",
+    "webpack": "4.9.1",
+    "webpack-cli": "2.1.4",
+    "webpack-dev-server": "^3.1.14",
+    "webpack-merge": "4.1.2"
+  },
+  "directories": {
+    "doc": "docs"
+  },
+  "homepage": "https://github.com/liimonx/TouchEvent#readme",
+  "keywords": [
+    "javascript, touch, event"
+  ],
+  "license": "MIT",
+  "main": "/src/TouchEvent.js",
+  "name": "touchevent.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/liimonx/TouchEvent.git"
+  },
+  "scripts": {
+    "build": "webpack -p --progress --mode production --config webpack.config.build.js",
+    "dev": "cross-env NODE_ENV=dev webpack-dev-server --progress --mode development --config webpack.config.dev.js"
+  },
+  "version": "1.0.0"
+}
