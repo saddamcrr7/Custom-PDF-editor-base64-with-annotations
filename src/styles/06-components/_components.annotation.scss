@@ -5,6 +5,8 @@
   position: absolute;
   top: 200px;
   left: 200px;
+  width: 217px;
+  height: 70px;
 
   &__input {
     background: none;
@@ -15,7 +17,8 @@
     resize: none;
     overflow: hidden;
     position: relative;
-    z-index: 2;
+    z-index: 1;
+    display: none;
 
     &:focus {
       outline: none;
@@ -24,13 +27,13 @@
 
   &__value {
     overflow: hidden;
-    word-break: break-all;
+    white-space: pre-line;
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    z-index: 1;
+    z-index: 2;
     padding: 10px;
   }
 
@@ -99,6 +102,18 @@
     #{$root}__options,
     #{$root}__resize {
       display: flex;
+    }
+  }
+
+  &.is-edit {
+    #{$root}__input {
+      z-index: 2;
+      display: block;
+    }
+
+    #{$root}__value {
+      z-index: 1;
+      display: none;
     }
   }
 }

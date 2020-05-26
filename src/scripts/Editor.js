@@ -4,19 +4,9 @@ import getStyle from './util/getStyle'
 class Editor {
   constructor() {
     this.data = []
-    this.annotation = {
-      type: String,
-      position: {
-        x: Number,
-        y: Number
-      },
-      width: Number,
-      height: Number,
-      size: Number
-    }
     this.textField = false
     this.annotationIndex = 0
-    this.signatureEditble = false
+    this.signatureField= false
     this.editorPad = document.querySelector('.o-editor-pad')
     this.textTiggerBtn = document.querySelector(
       '.c-editor-navbar__item--text')
@@ -24,8 +14,20 @@ class Editor {
     this.init()
   }
 
-  createTextAnnotation(type) {
+  createAnnotation(type) {
     this.editorPad.addEventListener('click', (e) => {
+      let annotation = {
+        type: '',
+        position: {
+          x: 0,
+          y: 0
+        },
+        width: Number,
+        height: Number,
+        size: 0,
+        id: 0
+      }
+
       if (this.textField == false) return
       const div = document.createElement('div')
       const annotationDom =
@@ -33,59 +35,56 @@ class Editor {
 
       div.classList.add(`c-annotation`)
       div.classList.add(`is-active`)
+      div.classList.add(`is-edit`)
       div.classList.add(`c-annotation-${type}`)
       div.innerHTML = annotationDom
       div.style.top = `${e.offsetY}px`
       div.style.left = `${e.offsetX}px`
-      this.editorPad.appendChild(div)
 
+      this.editorPad.appendChild(div)
       this.annotationIndex += 1
       this.textField = false
-      this.annotation.type = type
-      this.annotation.position.x = e.offsetX
-      this.annotation.position.y = e.offsetY
+      annotation.id = this.annotationIndex
+      annotation.type = type
+      annotation.position.x = e.offsetX
+      annotation.position.y = e.offsetY
 
       const input = div.querySelector('.c-annotation__input')
       const valueElm = div.querySelector('.c-annotation__value')
-      let value = ''
-
       input.focus()
 
       div.addEventListener('mouseleave', () => {
         div.classList.remove('is-active')
+        div.classList.remove('is-edit')
         input.blur()
-      })
-
-      input.addEventListener('blur', () => {
-        div.classList.remove('is-active')
-        value = input.value
-        valueElm.innerHTML = value
-        input.value = ''
-        this.annotation.value = value
-      })
-
-      input.addEventListener('focus', () => {
-        div.classList.add('is-active')
-        input.value = value
-        valueElm.innerHTML = ''
+        annotation.value = input.value
+        valueElm.innerHTML = input.value
       })
 
       div.addEventListener('mouseenter', () => {
         div.classList.add('is-active')
       })
 
-      this.textTiggerBtn.classList.remove('is-active')
-      this.resize(div, this.annotationIndex)
-      this.data.push(this.annotation)
+
+      const editBtn = div.querySelector('.c-annotation__option--edit')
+      editBtn.addEventListener('click', () => {
+        div.classList.add('is-edit')
+        input.focus()
+      })
+
 
       const deleteBtn = div.querySelector('.c-annotation__option-delete')
-      deleteBtn.addEventListener('click',()=> {
-       this.delete(div, this.annotationIndex)
+      deleteBtn.addEventListener('click', () => {
+        this.delete(div, annotation.id)
       })
+
+      this.textTiggerBtn.classList.remove('is-active')
+      this.resize(div, annotation)
+      this.data.push(annotation)
     })
   }
 
-  resize(elm, index) {
+  resize(elm, annotation) {
     const elmStyle = getStyle(elm)
     let getElmWidth = elmStyle.width.match(/\d/g)
     let getElmHeight = elmStyle.height.match(/\d/g)
@@ -112,24 +111,28 @@ class Editor {
       getElmHeight = ElmHeight
       elm.style.width = `${ElmWidth}px`
       elm.style.height = `${ElmHeight}px`
-      this.annotation.width = ElmWidth
-      this.annotation.height = ElmHeight
+      annotation.width = ElmWidth
+      annotation.height = ElmHeight
     }
+
+
   }
 
   delete(elm, index) {
     elm.remove()
-    this.annotationIndex -= 1
-    delete this.data[ this.annotationIndex]
+    for (let i = 0; i < this.data.length; i++) {
+      if (this.data[i].id === index) {
+        this.data.splice(i, 1);
+      }
+    }
   }
 
 
   typeText() {
     this.textTiggerBtn.addEventListener('click', (e) => {
       this.textField = true
-      this.createTextAnnotation('text')
+      this.createAnnotation('text')
       this.textTiggerBtn.classList.add('is-active')
-
     })
   }
 
