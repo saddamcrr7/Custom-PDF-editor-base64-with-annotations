@@ -9,15 +9,18 @@ import Viewer from './scripts/viewer'
 import Pagination from './scripts/components/pagination'
 import Editor from './scripts/Editor'
 
+var pdfjsLib = window['pdfjs-dist/build/pdf'];
+pdfjsLib.GlobalWorkerOptions.workerSrc = '//mozilla.github.io/pdf.js/build/pdf.worker.js'
+
 window.addEventListener('load', () => {
   let viewerPdfData = new PdfDataProcess(demoData)
-
-  const mainViewer = new Viewer()
+  let viewerPdfScale = 1
+  const mainViewer = new Viewer(viewerPdfData)
   mainViewer.scale = 1
+  mainViewer.pageRender(1, '.o-viewer__main-canvas')
 
-  mainViewer.pageRender(viewerPdfData, 1, '.o-viewer__main-canvas')
 
-  const pagesViewer = new Viewer()
+  const pagesViewer = new Viewer(viewerPdfData)
   pagesViewer.scale = 0.2
   let viewerPageElm = document.querySelector('.o-viewer__pages')
 
@@ -36,13 +39,44 @@ window.addEventListener('load', () => {
     });
 
     const pagePagination = new Pagination(pageNumber, (index) => {
-      mainViewer.pageRender(viewerPdfData, index,
+      mainViewer.pageRender(index,
         '.o-viewer__main-canvas')
       const pages = document.querySelectorAll('.o-viewer__page')
       pages.forEach(element => element.classList.remove(
         'is-active'));
       pages[index - 1].classList.add('is-active')
     })
+
+    const zoomInBtn = document.querySelector('.o-viewer__zoom--in')
+    const zoomOutBtn = document.querySelector('.o-viewer__zoom--out')
+
+    zoomInBtn.addEventListener('click', () => {
+      viewerPdfScale += 0.25
+      mainViewer.scale = viewerPdfScale
+      mainViewer.pageRender(pagePagination.index,
+        '.o-viewer__main-canvas')
+      updateMainCotainerSize()
+    })
+
+    zoomOutBtn.addEventListener('click', () => {
+      viewerPdfScale -= 0.25
+      mainViewer.scale = viewerPdfScale
+      mainViewer.pageRender(pagePagination.index,
+        '.o-viewer__main-canvas')
+      updateMainCotainerSize()
+    })
+
+    function updateMainCotainerSize() {
+      const mainContainer = document.querySelector(
+        '.o-viewer__main-container')
+        setTimeout(()=>{
+          mainContainer.style.width = `${mainViewer.width}px`
+          mainContainer.style.height = `${mainViewer.height}px`
+        }, 301)
+      
+    }
+
+
 
     for (let index = 0; index < pageNumber; index++) {
       const li = document.createElement('li')
@@ -62,14 +96,15 @@ window.addEventListener('load', () => {
       document.querySelectorAll('.o-viewer__page')[0].classList.add(
         'is-active')
       pagesViewer.pageRender(
-        viewerPdfData,
         index + 1,
         `.o-viewer__page-canvas-${index}`
       )
 
       canvas.addEventListener('click', () => {
-        mainViewer.pageRender(viewerPdfData, index + 1,
-          '.o-viewer__main-canvas')
+        viewerPdfScale = 1
+        mainViewer.scale = 1
+        mainViewer.pageRender(index + 1, '.o-viewer__main-canvas')
+        updateMainCotainerSize()
         const countElm = document.querySelector(
           '.c-pagination__count')
         countElm.innerHTML = `${index+1} / ${pageNumber}`
@@ -80,13 +115,12 @@ window.addEventListener('load', () => {
         pages[index].classList.add('is-active')
 
         pagePagination.index = index + 1
-
       })
     }
 
     const editor = new Editor()
 
-  }, 500)
+  }, 400)
 
 
 })
