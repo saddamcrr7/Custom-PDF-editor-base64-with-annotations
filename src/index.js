@@ -21,7 +21,7 @@ window.addEventListener('load', () => {
   const pagesViewer = new Viewer(viewerPdfData)
   let viewerPageElm = document.querySelector('.o-viewer__pages')
 
-  mainViewer.scale = 1
+  mainViewer.scale = viewerPdfScale
   pagesViewer.scale = 0.2
 
   setTimeout(() => {
@@ -87,7 +87,7 @@ window.addEventListener('load', () => {
           document.querySelector('.o-viewer__main').style.display =
             'flex'
         }
-      }, 1)
+      }, 0.1)
     }
 
 
@@ -133,7 +133,7 @@ window.addEventListener('load', () => {
 
     const editor = new Editor()
 
-  }, 700)
+  }, 1000)
 
 
 })

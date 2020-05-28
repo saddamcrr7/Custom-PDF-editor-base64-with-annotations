@@ -14,6 +14,10 @@ class Editor {
       '.c-editor-navbar__item--text')
     this.dateTiggerBtn = document.querySelector(
       '.c-editor-navbar__item--date')
+    this.initialsTiggerBtn = document.querySelector(
+      '.c-editor-navbar__item--initials')
+    this.signatureTiggerBtn = document.querySelector(
+      '.c-editor-navbar__item--signature')
     this.annotationType = ''
     this.init()
   }
@@ -53,6 +57,10 @@ class Editor {
         inputDom =
           '<input type="text" class="c-annotation__input c-annotation__input--date">'
       }
+      if (type === 'image') {
+        inputDom =
+          '<div class="c-annotation__upload-icon"><svg xmlns="http://www.w3.org/2000/svg" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" xmlns:xlink="http://www.w3.org/1999/xlink" height="16px" version="1.1" viewBox="0 0 16 16" width="16px"><defs/><g fill="none" fill-rule="evenodd" id="Icons with numbers" stroke="none" stroke-width="1"><g fill="#fff" id="Group" transform="translate(-768.000000, -432.000000)"><path d="M769,446 L781,446 L781,443 L783,443 L783,446 L783,448 L769,448 Z M769,443 L771,443 L771,446 L769,446 Z M778,438 L778,445 L774,445 L774,438 L772,438 L776,433 L780,438 Z M778,438" id="Rectangle 217 copy"/></g></g></svg> Upload</div><input type="file" class="c-annotation__input c-annotation__input--image">'
+      }
 
 
       const div = document.createElement('div')
@@ -87,12 +95,27 @@ class Editor {
         })
       }
 
+      if (type == "image") {
+        valueElm.innerHTML = `No image`
+        input.addEventListener('change', (e) => {
+          const reader = new FileReader()
+          reader.onload = () => {
+            annotation.imageSrc = reader.result
+            valueElm.innerHTML = `<img src="${reader.result}" >`
+          }
+          reader.readAsDataURL(e.target.files[0])
+        })
+      } else {
+        div.addEventListener('mouseleave', () => {
+          annotation.value = input.value
+          valueElm.innerHTML = input.value
+        })
+      }
+
       div.addEventListener('mouseleave', () => {
         div.classList.remove('is-active')
         div.classList.remove('is-edit')
         input.blur()
-        annotation.value = input.value
-        valueElm.innerHTML = input.value
       })
 
       div.addEventListener('mouseenter', () => {
@@ -112,9 +135,11 @@ class Editor {
 
       this.textTiggerBtn.classList.remove('is-active')
       this.dateTiggerBtn.classList.remove('is-active')
+      this.initialsTiggerBtn.classList.remove('is-active')
+      this.signatureTiggerBtn.classList.remove('is-active')
       this.resize(div, annotation)
       this.data.push(annotation)
-
+      console.log(this.data);
     })
   }
 
@@ -180,10 +205,30 @@ class Editor {
     })
   }
 
+  typeInitials() {
+    this.initialsTiggerBtn.addEventListener('click', (e) => {
+      this.annotationField = true
+      this.annotationType = 'image'
+      this.createAnnotation()
+      this.initialsTiggerBtn.classList.add('is-active')
+    })
+  }
+
+  typeSignature() {
+    this.signatureTiggerBtn.addEventListener('click', (e) => {
+      this.annotationField = true
+      this.annotationType = 'image'
+      this.createAnnotation()
+      this.signatureTiggerBtn.classList.add('is-active')
+    })
+  }
+
 
   init() {
     this.typeText()
     this.typeDate()
+    this.typeInitials()
+    this.typeSignature() 
   }
 }
 
