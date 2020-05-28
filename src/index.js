@@ -1,11 +1,12 @@
 import './styles/main.scss';
+
 import './scripts/sidebar'
 import {
   PDFDocument
 } from 'pdf-lib'
 import PdfDataProcess from './scripts/Pdf-data-process'
 import demoData from './scripts/data/demoData'
-import Viewer from './scripts/viewer'
+import Viewer from './scripts/viewer' 
 import Pagination from './scripts/components/pagination'
 import Editor from './scripts/Editor'
 
