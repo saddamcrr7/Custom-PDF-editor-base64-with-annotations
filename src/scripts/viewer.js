@@ -9,27 +9,25 @@ class Viewer {
 
   pageRender( pageIndex, elm) {
     const canvas = document.querySelector(elm)
-    setTimeout(() => {
-      this.data.pdf.getPage(pageIndex).then((page) => {
-
-        const viewport = page.getViewport({
-          scale: this.scale
+        this.data.pdf.getPage(pageIndex).then((page) => {
+  
+          const viewport = page.getViewport({
+            scale: this.scale
+          })
+  
+          const context = canvas.getContext('2d');
+          canvas.height = viewport.height;
+          canvas.width = viewport.width;
+  
+          const renderContext = {
+            canvasContext: context,
+            viewport: viewport
+          }
+          const renderTask = page.render(renderContext);
+          this.renderTask = renderTask
+          this.height = canvas.height
+          this.width = canvas.width 
         })
-
-        const context = canvas.getContext('2d');
-        canvas.height = viewport.height;
-        canvas.width = viewport.width;
-
-        const renderContext = {
-          canvasContext: context,
-          viewport: viewport
-        }
-        const renderTask = page.render(renderContext);
-        this.renderTask = renderTask
-        this.height = canvas.height
-        this.width = canvas.width 
-      })
-    }, 300)
   }
 }
 

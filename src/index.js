@@ -10,21 +10,22 @@ import Pagination from './scripts/components/pagination'
 import Editor from './scripts/Editor'
 
 var pdfjsLib = window['pdfjs-dist/build/pdf'];
-pdfjsLib.GlobalWorkerOptions.workerSrc = '//mozilla.github.io/pdf.js/build/pdf.worker.js'
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+  '//mozilla.github.io/pdf.js/build/pdf.worker.js'
 
 window.addEventListener('load', () => {
   let viewerPdfData = new PdfDataProcess(demoData)
   let viewerPdfScale = 1
   const mainViewer = new Viewer(viewerPdfData)
-  mainViewer.scale = 1
-  mainViewer.pageRender(1, '.o-viewer__main-canvas')
-
-
   const pagesViewer = new Viewer(viewerPdfData)
-  pagesViewer.scale = 0.2
   let viewerPageElm = document.querySelector('.o-viewer__pages')
 
+  mainViewer.scale = 1
+  pagesViewer.scale = 0.2
+
   setTimeout(() => {
+    mainViewer.pageRender(1, '.o-viewer__main-canvas')
+
     const pageNumber = viewerPdfData.pdf.numPages
 
     viewerPdfData.pdf.getMetadata().then(metadata => {
@@ -39,12 +40,17 @@ window.addEventListener('load', () => {
     });
 
     const pagePagination = new Pagination(pageNumber, (index) => {
+      viewerPdfScale = 1
+      mainViewer.scale = 1
+      mainViewer.scale = viewerPdfScale
+      updateMainCotainerSize()
       mainViewer.pageRender(index,
         '.o-viewer__main-canvas')
       const pages = document.querySelectorAll('.o-viewer__page')
       pages.forEach(element => element.classList.remove(
         'is-active'));
       pages[index - 1].classList.add('is-active')
+
     })
 
     const zoomInBtn = document.querySelector('.o-viewer__zoom--in')
@@ -69,13 +75,19 @@ window.addEventListener('load', () => {
     function updateMainCotainerSize() {
       const mainContainer = document.querySelector(
         '.o-viewer__main-container')
-        setTimeout(()=>{
-          mainContainer.style.width = `${mainViewer.width}px`
-          mainContainer.style.height = `${mainViewer.height}px`
-        }, 301)
-      
-    }
+      setTimeout(() => {
+        mainContainer.style.width = `${mainViewer.width}px`
+        mainContainer.style.height = `${mainViewer.height}px`
 
+        if (mainViewer.width > window.innerWidth) {
+          document.querySelector('.o-viewer__main').style.display =
+            'block'
+        } else {
+          document.querySelector('.o-viewer__main').style.display =
+            'flex'
+        }
+      }, 1)
+    }
 
 
     for (let index = 0; index < pageNumber; index++) {
@@ -120,7 +132,7 @@ window.addEventListener('load', () => {
 
     const editor = new Editor()
 
-  }, 400)
+  }, 700)
 
 
 })

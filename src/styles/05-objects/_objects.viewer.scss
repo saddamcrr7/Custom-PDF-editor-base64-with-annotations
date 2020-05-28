@@ -121,6 +121,7 @@
 
   &__main-container {
     position: relative;
+    margin: auto;
     // transition: 0.3s;
   }
 
@@ -130,7 +131,7 @@
   }
 
   &__main {
-    height: calc(100vh - 134px);
+    height: calc(100vh - 128px);
     display: flex;
     align-items: center;
     justify-content: center;
