@@ -1,8 +1,8 @@
-@import '../../node_modules/vanillajs-datepicker/sass/datepicker.scss';
+@import '~vanillajs-datepicker/sass/datepicker.scss';
 // Required bootstrap Files
-@import "vendor/bootstrap/scss/_functions";
-@import "vendor/bootstrap/scss/_variables";
-@import "vendor/bootstrap/scss/_mixins";
+@import "~bootstrap/scss/_functions";
+@import "~bootstrap/scss/_variables";
+@import "~bootstrap/scss/_mixins";
 
 // 01. Settings
 
@@ -17,11 +17,11 @@
 @import '01-settings/settings.z-layers';
 
 // Optional bootstrap Files
-@import "vendor/bootstrap/scss/_reboot";
-@import "vendor/bootstrap/scss/_root";
-@import "vendor/bootstrap/scss/_grid";
-@import "vendor/bootstrap/scss/_type";
-@import "vendor/bootstrap/scss/_transitions";
+@import "~bootstrap/scss/_reboot";
+@import "~bootstrap/scss/_root";
+@import "~bootstrap/scss/_grid";
+@import "~bootstrap/scss/_type";
+@import "~bootstrap/scss/_transitions";
 
 // 02.Tools
 @import '02-tools/tools.animations';
