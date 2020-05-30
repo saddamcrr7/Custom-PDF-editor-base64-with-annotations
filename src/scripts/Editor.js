@@ -10,6 +10,7 @@ class Editor {
     this.annotationField = false
     this.annotationIndex = 0
     this.editorPad = document.querySelector('.o-editor-pad')
+    this.tiggerBtns = document.querySelectorAll('.c-editor-navbar__item')
     this.textTiggerBtn = document.querySelector(
       '.c-editor-navbar__item--text')
     this.dateTiggerBtn = document.querySelector(
@@ -100,6 +101,7 @@ class Editor {
         input.addEventListener('change', (e) => {
           const reader = new FileReader()
           reader.onload = () => {
+            annotation.value = input.value
             annotation.imageSrc = reader.result
             valueElm.innerHTML = `<img src="${reader.result}" >`
           }
@@ -133,13 +135,10 @@ class Editor {
         this.delete(div, annotation.id)
       })
 
-      this.textTiggerBtn.classList.remove('is-active')
-      this.dateTiggerBtn.classList.remove('is-active')
-      this.initialsTiggerBtn.classList.remove('is-active')
-      this.signatureTiggerBtn.classList.remove('is-active')
+      this.removeTiggerBtnClass()
       this.resize(div, annotation)
       this.data.push(annotation)
-      console.log(this.data);
+      this.completeBtn()
     })
   }
 
@@ -184,6 +183,7 @@ class Editor {
         this.data.splice(i, 1);
       }
     }
+    this.completeBtn()
   }
 
 
@@ -192,6 +192,7 @@ class Editor {
       this.annotationField = true
       this.annotationType = 'text'
       this.createAnnotation()
+      this.removeTiggerBtnClass()
       this.textTiggerBtn.classList.add('is-active')
     })
   }
@@ -201,6 +202,7 @@ class Editor {
       this.annotationField = true
       this.annotationType = 'date'
       this.createAnnotation()
+      this.removeTiggerBtnClass()
       this.dateTiggerBtn.classList.add('is-active')
     })
   }
@@ -210,6 +212,7 @@ class Editor {
       this.annotationField = true
       this.annotationType = 'image'
       this.createAnnotation()
+      this.removeTiggerBtnClass()
       this.initialsTiggerBtn.classList.add('is-active')
     })
   }
@@ -219,8 +222,24 @@ class Editor {
       this.annotationField = true
       this.annotationType = 'image'
       this.createAnnotation()
+      this.removeTiggerBtnClass()
       this.signatureTiggerBtn.classList.add('is-active')
     })
+  }
+
+  completeBtn(display) {
+   const Btn = document.getElementById('complete-btn')
+   if(this.data.length < 1) {
+     Btn.style.display = 'none'
+   }else {
+    Btn.style.display = 'block'
+   }
+  }
+
+  removeTiggerBtnClass() {
+    this.tiggerBtns.forEach(element => {
+      element.classList.remove('is-active')
+    });
   }
 
 
