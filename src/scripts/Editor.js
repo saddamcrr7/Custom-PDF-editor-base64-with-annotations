@@ -203,7 +203,6 @@ class Editor {
 
     div.classList.add(`c-annotation`)
     div.classList.add(`is-active`)
-    div.classList.add(`is-edit`)
     div.classList.add(`c-annotation--${type}`)
     div.innerHTML = annotationDom
 
