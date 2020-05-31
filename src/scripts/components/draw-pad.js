@@ -34,16 +34,14 @@ class DrawPad {
     this.pad.clear();
   }
 
-
-
   open(type) {
-    this.DrawPadElm.style.display = 'block'
+    this.DrawPadElm.style.zIndex = '999'
     const drawPadNameElm = document.querySelector('.o-draw-pad__title-name')
     drawPadNameElm.innerHTML = type
   }
 
   close() {
-    this.DrawPadElm.style.display = 'none'
+    this.DrawPadElm.style.zIndex = '-999'
     this.pad.clear();
   }
 
@@ -56,13 +54,11 @@ class DrawPad {
 
   save() {
     if (this.pad.isEmpty()) {
-      alert("Please provide a signature first.")
       return
     } else {
       this.dataURL = this.pad.toDataURL()
+      this.close()
     }
-
-    this.close()
   }
 
   cancel() {

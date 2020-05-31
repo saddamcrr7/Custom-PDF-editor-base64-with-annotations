@@ -1,7 +1,5 @@
 import './styles/main.scss';
 
-import DrawPad from './scripts/components/draw-pad'
-
 import './scripts/sidebar'
 import {
   PDFDocument
@@ -18,8 +16,6 @@ pdfjsLib.GlobalWorkerOptions.workerSrc =
   '//mozilla.github.io/pdf.js/build/pdf.worker.js'
 
 window.addEventListener('load', () => {
-
-new DrawPad()
 
 
   let rawViewerPdfData = new PdfDataProcess(base46data)
@@ -40,7 +36,9 @@ new DrawPad()
         height
       } = editPage.getSize()
 
+
       editor.data.forEach(data => {
+
         if (data.type === 'text' || data.type ===
           'date') {
           editPage.drawText(
@@ -52,32 +50,15 @@ new DrawPad()
         }
         if (data.type == 'image') {
           (async () => {
-            let image
-            let fileExtension = data.value.split('.')
-              .pop();
 
-            if (fileExtension == 'png') {
-              image = await pdfDoc.embedPng(data
-                .imageSrc)
-              embedImage(image)
-            }
-            if (fileExtension == 'jpg') {
-              image = await pdfDoc.embedJpg(data
-                .imageSrc)
-              embedImage(image)
-            }
+            let image = await pdfDoc.embedPng(data.imageSrc)
 
-            function embedImage(image) {
-              editPage.drawImage(image, {
-                x: data.position.x,
-                y: height - (data.position.y +
-                  data.height),
-                width: data.width,
-                height: data.height,
-              })
-            }
-
-
+            editPage.drawImage(image, {
+              x: data.position.x,
+              y: height - (data.position.y +  data.height),
+              width: data.width,
+              height: data.height,
+            })
 
           })()
         }
@@ -88,6 +69,8 @@ new DrawPad()
       base46data = pdfBytes
       viewer.destroy()
       viewer.reborn(EidtedViewerPdfData)
+      editor.data = []
+      editor.clear()
     })()
 
   })
