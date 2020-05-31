@@ -122,6 +122,7 @@ class Editor {
 
       this.removeTiggerBtnClass()
       this.resize(div, annotation)
+      this.move(div, annotation)
       this.data.push(annotation)
       this.completeBtn()
     })
@@ -158,6 +159,42 @@ class Editor {
       annotation.height = ElmHeight
     }
 
+
+  }
+
+  move(elm, annotation) {
+    const dargArea = elm.querySelector('.c-annotation__value')
+
+    let mousePosition
+    let offset = [0, 0]
+    let isDown = false
+
+    dargArea.addEventListener('mousedown', (e) => {
+      isDown = true;
+      offset = [
+        elm.offsetLeft - e.clientX,
+        elm.offsetTop - e.clientY
+      ]
+    }, true)
+
+    this.editorPad.addEventListener('mouseup', () => {
+      isDown = false;
+    }, true)
+
+    this.editorPad.addEventListener('mousemove', (event) => {
+      event.preventDefault()
+      if (isDown) {
+        mousePosition = {
+          x: event.clientX,
+          y: event.clientY
+        };
+        elm.style.left = (mousePosition.x + offset[0]) + 'px'
+        elm.style.top = (mousePosition.y + offset[1]) + 'px'
+
+        annotation.position.x = mousePosition.x + offset[0]
+        annotation.position.y = mousePosition.y + offset[1]
+      }
+    }, true)
 
   }
 
@@ -207,9 +244,9 @@ class Editor {
     div.innerHTML = annotationDom
 
     const editBtn = div.querySelector('.c-annotation__option--edit')
-      editBtn.addEventListener('click', () => {
-       this.drawPad.open(type)
-      })
+    editBtn.addEventListener('click', () => {
+      this.drawPad.open(type)
+    })
 
     padSaveBtn.addEventListener('click', () => {
       const image = div.querySelector('.c-annotation__image')
@@ -221,6 +258,7 @@ class Editor {
     this.editorPad.appendChild(div)
     this.removeTiggerBtnClass()
     this.resize(div, annotation)
+    this.move(div, annotation)
     this.data.push(annotation)
     this.completeBtn()
 
@@ -253,6 +291,7 @@ class Editor {
 
   typeInitials() {
     this.initialsTiggerBtn.addEventListener('click', (e) => {
+      this.drawPad.close()
       this.annotationField = true
       this.annotationType = 'image'
       this.removeTiggerBtnClass()
@@ -264,6 +303,7 @@ class Editor {
 
   typeSignature() {
     this.signatureTiggerBtn.addEventListener('click', (e) => {
+      this.drawPad.close()
       this.annotationField = true
       this.annotationType = 'image'
       this.removeTiggerBtnClass()

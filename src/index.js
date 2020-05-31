@@ -1,9 +1,7 @@
 import './styles/main.scss';
 
 import './scripts/sidebar'
-import {
-  PDFDocument
-} from 'pdf-lib'
+import {PDFDocument} from 'pdf-lib'
 import PdfDataProcess from './scripts/Pdf-data-process'
 import demoData from './scripts/data/demoData'
 import Viewer from './scripts/viewer'
@@ -16,8 +14,6 @@ pdfjsLib.GlobalWorkerOptions.workerSrc =
   '//mozilla.github.io/pdf.js/build/pdf.worker.js'
 
 window.addEventListener('load', () => {
-
-
   let rawViewerPdfData = new PdfDataProcess(base46data)
   let viewer = new Viewer(rawViewerPdfData)
 
@@ -36,21 +32,19 @@ window.addEventListener('load', () => {
         height
       } = editPage.getSize()
 
-
       editor.data.forEach(data => {
 
         if (data.type === 'text' || data.type ===
           'date') {
           editPage.drawText(
             `${data.value}`, {
-              x: data.position.x,
-              y: height - data.position.y,
+              x: data.position.x + 10,
+              y: height - (data.position.y + 27),
               size: 16,
             })
         }
         if (data.type == 'image') {
           (async () => {
-
             let image = await pdfDoc.embedPng(data.imageSrc)
 
             editPage.drawImage(image, {
@@ -59,7 +53,6 @@ window.addEventListener('load', () => {
               width: data.width,
               height: data.height,
             })
-
           })()
         }
       })
@@ -71,6 +64,7 @@ window.addEventListener('load', () => {
       viewer.reborn(EidtedViewerPdfData)
       editor.data = []
       editor.clear()
+      compalteBtn.style.display = 'none'
     })()
 
   })
