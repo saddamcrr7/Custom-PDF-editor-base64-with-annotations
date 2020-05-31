@@ -13,6 +13,7 @@
   flex-direction: column;
   justify-content: space-between;
   z-index: 999;
+  display: none;
 
   &__header {
     display: flex;
@@ -76,5 +77,10 @@
       border-radius: 10px;
       margin-right: 10px;
       cursor: pointer;
+      border: 2px solid transparent;
+
+      &.is-active {
+          border: 2px solid $color-golden;
+      }
   }
 }

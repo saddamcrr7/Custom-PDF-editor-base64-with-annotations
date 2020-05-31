@@ -1,5 +1,7 @@
 import './styles/main.scss';
 
+import DrawPad from './scripts/components/draw-pad'
+
 import './scripts/sidebar'
 import {
   PDFDocument
@@ -16,74 +18,81 @@ pdfjsLib.GlobalWorkerOptions.workerSrc =
   '//mozilla.github.io/pdf.js/build/pdf.worker.js'
 
 window.addEventListener('load', () => {
+
+new DrawPad()
+
+
   let rawViewerPdfData = new PdfDataProcess(base46data)
   let viewer = new Viewer(rawViewerPdfData)
 
-    const editor = new Editor()
+  const editor = new Editor()
 
-    const compalteBtn = document.getElementById('complete-btn')
+  const compalteBtn = document.getElementById('complete-btn')
 
-    compalteBtn.addEventListener('click', (e) => {
-      (async () => {
-        const dataUri = 'data:application/pdf;base64,' + base46data
-        const pdfDoc = await PDFDocument.load(dataUri)
-        const pages = pdfDoc.getPages()
-        const editPage = pages[viewer.viewPageIndex - 1]
-        const {
-          width,
-          height
-        } = editPage.getSize()
+  compalteBtn.addEventListener('click', (e) => {
+    (async () => {
+      const dataUri = 'data:application/pdf;base64,' + base46data
+      const pdfDoc = await PDFDocument.load(dataUri)
+      const pages = pdfDoc.getPages()
+      const editPage = pages[viewer.viewPageIndex - 1]
+      const {
+        width,
+        height
+      } = editPage.getSize()
 
-        editor.data.forEach(data => {
-          if (data.type === 'text' || data.type ===
-            'date') {
-            editPage.drawText(
-              `${data.value}`, {
+      editor.data.forEach(data => {
+        if (data.type === 'text' || data.type ===
+          'date') {
+          editPage.drawText(
+            `${data.value}`, {
+              x: data.position.x,
+              y: height - data.position.y,
+              size: 16,
+            })
+        }
+        if (data.type == 'image') {
+          (async () => {
+            let image
+            let fileExtension = data.value.split('.')
+              .pop();
+
+            if (fileExtension == 'png') {
+              image = await pdfDoc.embedPng(data
+                .imageSrc)
+              embedImage(image)
+            }
+            if (fileExtension == 'jpg') {
+              image = await pdfDoc.embedJpg(data
+                .imageSrc)
+              embedImage(image)
+            }
+
+            function embedImage(image) {
+              editPage.drawImage(image, {
                 x: data.position.x,
-                y: height - data.position.y,
-                size: 16,
+                y: height - (data.position.y +
+                  data.height),
+                width: data.width,
+                height: data.height,
               })
-          }
-          if (data.type == 'image') {
-            (async () => {
-              let image
-              let fileExtension = data.value.split('.')
-                .pop();
-
-              if (fileExtension == 'png') {
-                image = await pdfDoc.embedPng(data
-                  .imageSrc)
-                embedImage(image)
-              }
-              if (fileExtension == 'jpg') {
-                image = await pdfDoc.embedJpg(data
-                  .imageSrc)
-                embedImage(image)
-              }
-
-              function embedImage(image) {
-                editPage.drawImage(image, {
-                  x: data.position.x,
-                  y: height - (data.position.y +
-                    data.height),
-                  width: data.width,
-                  height: data.height,
-                })
-              }
+            }
 
 
 
-            })()
-          }
-        })
+          })()
+        }
+      })
 
-        const pdfBytes = await pdfDoc.saveAsBase64()
-        let EidtedViewerPdfData = new PdfDataProcess(pdfBytes)
-        base46data = pdfBytes
-        viewer.destroy()
-        viewer.reborn(EidtedViewerPdfData)
-      })()
+      const pdfBytes = await pdfDoc.saveAsBase64()
+      let EidtedViewerPdfData = new PdfDataProcess(pdfBytes)
+      base46data = pdfBytes
+      viewer.destroy()
+      viewer.reborn(EidtedViewerPdfData)
+    })()
 
-    })
+  })
 
 })
+
+
+
