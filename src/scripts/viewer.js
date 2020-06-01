@@ -140,9 +140,10 @@ class Viewer {
     const navbarItems = document.querySelectorAll('.c-editor-navbar__item')
     navbarItems.forEach(navItem => {
       navItem.addEventListener('click', ()=> {
-        this.scale = 1
-        this.pageRender(this.viewPageIndex, '.o-viewer__main-canvas')
-        this.updateContainerSize()
+        if(this.scale == 1) return
+          this.scale = 1
+          this.pageRender(this.viewPageIndex, '.o-viewer__main-canvas')
+          this.updateContainerSize()
       })
     })
   }

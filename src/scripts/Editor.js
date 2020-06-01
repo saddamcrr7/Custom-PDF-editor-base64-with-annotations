@@ -267,6 +267,14 @@ class Editor {
       }
     })
 
+    const clearBtn = document.querySelector('.o-draw-pad__cancel')
+    clearBtn.addEventListener('click', () => {
+      const image = div.querySelector(`.c-annotation__image--${this.padSaveBtn.dataset.index}`)
+      if (image) {
+        this.delete(div, annotation.id)
+      }
+    })
+
     this.editorPad.appendChild(div)
     this.removeTiggerBtnClass()
     this.resize(div, annotation)
