@@ -25,6 +25,7 @@ class DrawPad {
   }
 
   resizeCanvas() {
+
     const ratio = Math.max(window.devicePixelRatio || 1, 1);
 
     this.canvas.width = this.canvas.offsetWidth * ratio;
@@ -74,8 +75,8 @@ class DrawPad {
     this.cancel()
     this.clear()
 
-    window.onresize = this.resizeCanvas;
-    this.resizeCanvas();
+    window.addEventListener("resize", this.resizeCanvas())
+    this.resizeCanvas()
   }
 }
 
