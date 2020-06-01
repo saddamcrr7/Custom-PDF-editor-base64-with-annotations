@@ -136,11 +136,19 @@ class Viewer {
       this.pageRender(this.viewPageIndex, '.o-viewer__main-canvas')
       this.updateContainerSize()
     })
+
+    const navbarItems = document.querySelectorAll('.c-editor-navbar__item')
+    navbarItems.forEach(navItem => {
+      navItem.addEventListener('click', ()=> {
+        this.scale = 1
+        this.pageRender(this.viewPageIndex, '.o-viewer__main-canvas')
+        this.updateContainerSize()
+      })
+    })
   }
 
   destroy() {
     this.data = null
-
   }
 
   reborn(data) {
