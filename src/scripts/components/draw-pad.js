@@ -6,7 +6,7 @@ class DrawPad {
     this.drawColor = '#000'
     this.DrawPadElm = document.querySelector('.o-draw-pad')
     this.canvas = document.querySelector('.o-draw-pad__canvas')
-    this.dataURL
+    this.dataURL = ''
     this.pad = new SignaturePad(this.canvas)
     this.init()
   }
