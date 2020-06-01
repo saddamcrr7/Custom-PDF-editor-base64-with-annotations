@@ -7,7 +7,7 @@ export default class TouchEvent {
 
   constructor(elm, callback) {
     this.callback = callback
-    this.endEvent = ()=>{}
+    this.endEvent = () => {}
     this.elem = document.querySelector(`${elm}`)
     this.isDown = !1
     this.startX = 0
@@ -51,7 +51,7 @@ export default class TouchEvent {
         this.endY = e.clientY
         this.walkX = this.endX - this.startX
         this.walkY = this.endY - this.startY
-      this.callback(this)
+        this.callback(this)
 
       }
 
@@ -68,6 +68,7 @@ export default class TouchEvent {
       this.isDown = !0
       this.startX = ev.clientX - element.offsetLeft
       this.startY = ev.clientY - element.offsetTop
+      this.target = ev.target
     })
 
     addEvent(element, 'touchend', (e) => {
@@ -75,18 +76,19 @@ export default class TouchEvent {
     })
 
     addEvent(element, 'touchmove', (e) => {
-      if (!this.isDown) return
 
-      e.preventDefault()
-      const ev = e.changedTouches[0]
+      if (this.isDown) {
+        this.target = e.target
+        e.preventDefault()
+        const ev = e.changedTouches[0]
 
-      this.endX = ev.clientX
-      this.endY = ev.clientY
-      this.walkX = this.endX - this.startX
-      this.walkY = this.endY - this.startY
-      this.callback(this)
+        this.endX = ev.clientX
+        this.endY = ev.clientY
+        this.walkX = this.endX - this.startX
+        this.walkY = this.endY - this.startY
+        this.callback(this)
+      }
     })
-
   }
 
   init() {
