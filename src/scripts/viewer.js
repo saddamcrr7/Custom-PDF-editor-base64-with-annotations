@@ -47,6 +47,7 @@ class Viewer {
       this.scale = 1
       this.renderMainPage(index)
       this.updateContainerSize()
+      this.viewPageIndex = index
     })
 
     let viewerPageElm = document.querySelector('.o-viewer__pages')
