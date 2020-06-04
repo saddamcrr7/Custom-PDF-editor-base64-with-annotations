@@ -1,7 +1,7 @@
 .c-annotation {
   $root: &;
 
-  border: 1px solid $color-grey;
+  border: 1px solid transparent;
   position: absolute;
   top: 200px;
   left: 200px;
@@ -51,6 +51,10 @@
     img {
       width: 100%;
       height: 100%;
+    }
+
+    &:active {
+      cursor: move;
     }
   }
 
@@ -119,6 +123,10 @@
       height: 20px;
       transform: rotate(90deg);
     }
+
+    &:active {
+      cursor: nwse-resize;
+    }
   }
 
   &__resize-overlay {
@@ -131,6 +139,7 @@
   }
 
   &.is-active {
+    border: 1px solid $color-grey;
 
     #{$root}__options,
     #{$root}__resize {
@@ -159,7 +168,7 @@
       &__value {
         padding: 0;
         display: block !important;
-       }
+      }
     }
   }
 }

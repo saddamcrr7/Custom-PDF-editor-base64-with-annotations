@@ -28,7 +28,10 @@ class Editor {
   }
 
   createAnnotation() {
+    this.editorPad.classList.add('is-wait')
     this.editorPad.addEventListener('click', (e) => {
+    this.editorPad.classList.remove('is-wait')
+
       let type = this.annotationType
 
       let annotation = {
