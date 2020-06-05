@@ -1,7 +1,10 @@
 import './styles/main.scss';
 
 import './scripts/sidebar'
-import {PDFDocument} from 'pdf-lib'
+import {
+  PDFDocument,
+  rgb
+} from 'pdf-lib'
 import PdfDataProcess from './scripts/Pdf-data-process'
 import demoData from './scripts/data/demoData'
 import Viewer from './scripts/viewer'
@@ -36,6 +39,12 @@ window.addEventListener('load', () => {
 
         if (data.type === 'text' || data.type ===
           'date') {
+          const red = Number(data.color[0])
+          const green = Number(data.color[1])
+          const blue = Number(data.color[2])
+
+          // const rgbColor = rgb(red, green, blue)
+
           editPage.drawText(
             `${data.value}`, {
               x: data.position.x + 10,
@@ -49,7 +58,8 @@ window.addEventListener('load', () => {
 
             editPage.drawImage(image, {
               x: data.position.x,
-              y: height - (data.position.y +  data.height),
+              y: height - (data.position.y + data
+                .height),
               width: data.width,
               height: data.height,
             })
@@ -70,6 +80,3 @@ window.addEventListener('load', () => {
   })
 
 })
-
-
-
