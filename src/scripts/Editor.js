@@ -218,9 +218,10 @@ class Editor {
     let ElmHeight = getElmHeight
     let ElmLeft = getElmLeft
 
+    const resizeBtnIcon = elm.querySelector(
+      '.c-annotation__resize-overlay')
+
     const resizeTouch = new TouchEvent('.o-editor-pad', (e) => {
-      const resizeBtnIcon = elm.querySelector(
-        '.c-annotation__resize-overlay')
 
       if (e.target == resizeBtnIcon) {
         ElmWidth = getElmWidth + e.walkX
@@ -231,7 +232,6 @@ class Editor {
           ElmWidth = getElmWidth + (-e.walkX)
           elm.style.left = `${ElmLeft}px`
         }
-
 
         elm.style.width = `${ElmWidth}px`
         elm.style.height = `${ElmHeight}px`
@@ -246,7 +246,7 @@ class Editor {
       annotation.width = ElmWidth
       annotation.height = ElmHeight
 
-      if (type == "textType") {
+      if (type == "textType" && this.data.length && e.target == resizeBtnIcon) {
         getElmLeft = elmStyle.left.match(/\d/g)
         getElmLeft = Number(getElmLeft.join(""))
         annotation.position.x = getElmLeft
