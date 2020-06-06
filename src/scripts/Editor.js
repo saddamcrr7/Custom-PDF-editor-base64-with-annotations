@@ -246,14 +246,18 @@ class Editor {
       annotation.width = ElmWidth
       annotation.height = ElmHeight
 
-      if (type == "textType" && this.data.length && e.target == resizeBtnIcon) {
+    
+
+      if (type == "textType") {
         getElmLeft = elmStyle.left.match(/\d/g)
         getElmLeft = Number(getElmLeft.join(""))
+      }
+
+      if (type == "textType" && this.data.length && e.target == resizeBtnIcon) {
+        elm.style.left = `${getElmLeft}px`
         annotation.position.x = getElmLeft
       }
     }
-
-
   }
 
   move(elm, annotation) {
