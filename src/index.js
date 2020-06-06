@@ -3,7 +3,8 @@ import './styles/main.scss';
 import './scripts/sidebar'
 import {
   PDFDocument,
-  rgb
+  rgb,
+  StandardFonts
 } from 'pdf-lib'
 import PdfDataProcess from './scripts/Pdf-data-process'
 import demoData from './scripts/data/demoData'
@@ -30,6 +31,12 @@ window.addEventListener('load', () => {
       const pdfDoc = await PDFDocument.load(dataUri)
       const pages = pdfDoc.getPages()
       const editPage = pages[viewer.viewPageIndex - 1]
+      
+      const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica)
+      const helveticaFontBlod = await pdfDoc.embedFont(StandardFonts.HelveticaBold)
+      const helveticaFontOblique = await pdfDoc.embedFont(StandardFonts.HelveticaOblique)
+      const HelveticaFontBoldOblique = await pdfDoc.embedFont(StandardFonts.HelveticaBoldOblique)
+
       const {
         width,
         height
@@ -39,17 +46,26 @@ window.addEventListener('load', () => {
 
         if (data.type === 'text' || data.type ===
           'date') {
-          const red = Number(data.color[0])
-          const green = Number(data.color[1])
-          const blue = Number(data.color[2])
 
-          // const rgbColor = rgb(red, green, blue)
+          let fontFormet = helveticaFont
+          if (data.formet == 'bold') {
+            fontFormet = helveticaFontBlod
+          } else if (data.formet == 'italic') {
+            fontFormet = helveticaFontOblique
+          }else if(data.formet == 'boldItalic') {
+            fontFormet = HelveticaFontBoldOblique
+          } else {
+            fontFormet = helveticaFont
+          }
 
           editPage.drawText(
             `${data.value}`, {
               x: data.position.x + 10,
               y: height - (data.position.y + 27),
               size: 16,
+              color: rgb(data.color.red, data.color.green,
+                data.color.blue),
+              font: fontFormet
             })
         }
         if (data.type == 'image') {

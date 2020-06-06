@@ -30,7 +30,7 @@ class Editor {
   createAnnotation() {
     this.editorPad.classList.add('is-wait')
     this.editorPad.addEventListener('click', (e) => {
-    this.editorPad.classList.remove('is-wait')
+      this.editorPad.classList.remove('is-wait')
 
       let type = this.annotationType
 
@@ -43,7 +43,12 @@ class Editor {
         width: Number,
         height: Number,
         size: 0,
-        color: [],
+        color: {
+          red: 0.011764705882352941,
+          green: 0,
+          blue: 0.00784313725490196
+        },
+        formet: 'normal',
         id: 0
       }
 
@@ -85,56 +90,112 @@ class Editor {
       const valueElm = div.querySelector('.c-annotation__value')
       input.focus()
 
-      if (type == 'date') {
-        const datepicker = new Datepicker(div.querySelector(
-          '.c-annotation__input--date'), {
-          autohide: true,
-        })
-        input.blur()
-        input.focus()
-
-        input.addEventListener('hide', () => {
-          annotation.value = input.value
-          valueElm.innerHTML = input.value
-        })
-      }
-
-      div.addEventListener('mouseleave', () => {
-        annotation.value = input.value
-        valueElm.innerHTML = input.value
-      })
-
-      div.addEventListener('mouseleave', () => {
-        div.classList.remove('is-active')
-        div.classList.remove('is-edit')
-        input.blur()
-      })
-
-      div.addEventListener('mouseenter', () => {
-        div.classList.add('is-active')
-      })
-
       const editBtn = div.querySelector('.c-annotation__option--edit')
       editBtn.addEventListener('click', () => {
         div.classList.add('is-edit')
         input.focus()
       })
 
+      if (type == 'date') {
+        const datepicker = new Datepicker(div.querySelector(
+          '.c-annotation__input--date'), {
+            autohide: true,
+        })
+        
+        datepicker.show()
+       
+        input.addEventListener('hide', () => {
+          annotation.value = input.value
+          valueElm.innerHTML = input.value
+        })
+
+        div.addEventListener('mouseleave', () => {
+          if(datepicker.active == false) {
+            div.classList.remove('is-active')
+            div.classList.remove('is-edit')
+          }
+        })
+
+        this.editorPad.addEventListener('click', (e)=> {
+          if(datepicker.active == false && e.target == this.editorPad) {
+            div.classList.remove('is-active')
+            div.classList.remove('is-edit')
+          }
+        })
+        
+      }else {
+        div.addEventListener('mouseleave', () => {
+          annotation.value = input.value
+          valueElm.innerHTML = input.value
+          div.classList.remove('is-active')
+          div.classList.remove('is-edit')
+          input.blur()
+        })
+      }
+     
+
+      div.addEventListener('mouseenter', () => {
+        div.classList.add('is-active')
+      })
+
+   
+
       const deleteBtn = div.querySelector('.c-annotation__option-delete')
       deleteBtn.addEventListener('click', () => {
         this.delete(div, annotation.id)
       })
 
-      const colorElems = document.querySelectorAll('.c-annotation__color')
+      const colorElems = div.querySelectorAll('.c-annotation__color')
       colorElems.forEach(elm => {
         elm.style.backgroundColor = elm.dataset.value
         elm.addEventListener('click', () => {
-          colorElems.forEach(elem => elem.classList.remove('is-active'))
-          div.style.color =  elm.dataset.value
+          colorElems.forEach(elem => elem.classList.remove(
+            'is-active'))
+          input.style.color = elm.dataset.value
+          valueElm.style.color = elm.dataset.value
           elm.classList.add('is-active')
-          
-          annotation.color = elm.dataset.value.slice(4, -1).split(',')
+
+          const rgbs = elm.dataset.value.slice(4, -1).split(',')
+          annotation.color.red = 1 / 255 * Number(rgbs[0])
+          annotation.color.green = 1 / 255 * Number(rgbs[1])
+          annotation.color.blue = 1 / 255 * Number(rgbs[2])
         })
+      })
+
+      const formatNormal = div.querySelector(
+        '.c-annotation__format--normal')
+      const formatItalic = div.querySelector(
+        '.c-annotation__format--italic')
+      const formatBold = div.querySelector('.c-annotation__format--bold')
+
+      formatNormal.addEventListener('click', () => {
+        input.style.fontStyle = 'normal'
+        valueElm.style.fontStyle = 'normal'
+        input.style.fontWeight = 'normal'
+        valueElm.style.fontWeight = 'normal'
+        annotation.formet = 'normal'
+      })
+      formatItalic.addEventListener('click', () => {
+        input.style.fontStyle = 'italic'
+        valueElm.style.fontStyle = 'italic'
+
+        if(annotation.formet == 'bold') {
+          annotation.formet = 'boldItalic'
+        }else {
+          annotation.formet = 'italic'
+        }
+      })
+
+      formatBold.addEventListener('click', ()=> {
+        input.style.fontWeight = 'bold'
+        valueElm.style.fontWeight = 'bold'
+        annotation.formet = 'bold'
+
+        if(annotation.formet == 'italic') {
+          annotation.formet = 'boldItalic'
+        }else {
+          annotation.formet = 'bold'
+        }
       })
 
       this.removeTiggerBtnClass()
@@ -275,7 +336,8 @@ class Editor {
     this.padSaveBtn.dataset.index = this.annotationIndex
 
     this.padSaveBtn.addEventListener('click', () => {
-      const image = div.querySelector(`.c-annotation__image--${this.padSaveBtn.dataset.index}`)
+      const image = div.querySelector(
+        `.c-annotation__image--${this.padSaveBtn.dataset.index}`)
       if (image) {
         this.drawPad.save()
         annotation.imageSrc = this.drawPad.dataURL
@@ -285,7 +347,8 @@ class Editor {
 
     const clearBtn = document.querySelector('.o-draw-pad__cancel')
     clearBtn.addEventListener('click', () => {
-      const image = div.querySelector(`.c-annotation__image--${this.padSaveBtn.dataset.index}`)
+      const image = div.querySelector(
+        `.c-annotation__image--${this.padSaveBtn.dataset.index}`)
       if (image) {
         this.delete(div, annotation.id)
       }
