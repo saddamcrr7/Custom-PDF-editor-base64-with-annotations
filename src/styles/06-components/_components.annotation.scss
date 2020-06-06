@@ -188,7 +188,7 @@
       }
   }
 
-  &--text {
+  &--text, &--date {
     #{$root}__resize  {
       left: 0;
       transform: translate(-50%, 50%);

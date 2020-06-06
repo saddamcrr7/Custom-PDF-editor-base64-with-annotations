@@ -99,31 +99,32 @@ class Editor {
       if (type == 'date') {
         const datepicker = new Datepicker(div.querySelector(
           '.c-annotation__input--date'), {
-            autohide: true,
+          autohide: true,
         })
-        
+
         datepicker.show()
-       
+
         input.addEventListener('hide', () => {
           annotation.value = input.value
           valueElm.innerHTML = input.value
         })
 
         div.addEventListener('mouseleave', () => {
-          if(datepicker.active == false) {
+          if (datepicker.active == false) {
             div.classList.remove('is-active')
             div.classList.remove('is-edit')
           }
         })
 
-        this.editorPad.addEventListener('click', (e)=> {
-          if(datepicker.active == false && e.target == this.editorPad) {
+        this.editorPad.addEventListener('click', (e) => {
+          if (datepicker.active == false && e.target == this
+            .editorPad) {
             div.classList.remove('is-active')
             div.classList.remove('is-edit')
           }
         })
-        
-      }else {
+
+      } else {
         div.addEventListener('mouseleave', () => {
           annotation.value = input.value
           valueElm.innerHTML = input.value
@@ -132,13 +133,11 @@ class Editor {
           input.blur()
         })
       }
-     
+
 
       div.addEventListener('mouseenter', () => {
         div.classList.add('is-active')
       })
-
-   
 
       const deleteBtn = div.querySelector('.c-annotation__option-delete')
       deleteBtn.addEventListener('click', () => {
@@ -179,42 +178,45 @@ class Editor {
         input.style.fontStyle = 'italic'
         valueElm.style.fontStyle = 'italic'
 
-        if(annotation.formet == 'bold') {
+        if (annotation.formet == 'bold') {
           annotation.formet = 'boldItalic'
-        }else {
+        } else {
           annotation.formet = 'italic'
         }
       })
 
-      formatBold.addEventListener('click', ()=> {
+      formatBold.addEventListener('click', () => {
         input.style.fontWeight = 'bold'
         valueElm.style.fontWeight = 'bold'
         annotation.formet = 'bold'
 
-        if(annotation.formet == 'italic') {
+        if (annotation.formet == 'italic') {
           annotation.formet = 'boldItalic'
-        }else {
+        } else {
           annotation.formet = 'bold'
         }
       })
 
       this.removeTiggerBtnClass()
-      this.resize(div, annotation)
+      this.resize(div, annotation, 'textType')
       this.move(div, annotation)
       this.data.push(annotation)
       this.completeBtn()
     })
   }
 
-  resize(elm, annotation) {
+  resize(elm, annotation, type) {
     const elmStyle = getStyle(elm)
     let getElmWidth = elmStyle.width.match(/\d/g)
     let getElmHeight = elmStyle.height.match(/\d/g)
+    let getElmLeft = elmStyle.left.match(/\d/g)
     getElmWidth = Number(getElmWidth.join(""))
     getElmHeight = Number(getElmHeight.join(""))
+    getElmLeft = Number(getElmLeft.join(""))
 
     let ElmWidth = getElmWidth
     let ElmHeight = getElmHeight
+    let ElmLeft = getElmLeft
 
     const resizeTouch = new TouchEvent('.o-editor-pad', (e) => {
       const resizeBtnIcon = elm.querySelector(
@@ -223,6 +225,14 @@ class Editor {
       if (e.target == resizeBtnIcon) {
         ElmWidth = getElmWidth + e.walkX
         ElmHeight = getElmHeight + e.walkY
+        ElmLeft = getElmLeft - (-e.walkX)
+
+        if (type == "textType") {
+          ElmWidth = getElmWidth + (-e.walkX)
+          elm.style.left = `${ElmLeft}px`
+        }
+
+
         elm.style.width = `${ElmWidth}px`
         elm.style.height = `${ElmHeight}px`
       }
@@ -235,6 +245,12 @@ class Editor {
       elm.style.height = `${ElmHeight}px`
       annotation.width = ElmWidth
       annotation.height = ElmHeight
+
+      if (type == "textType") {
+        getElmLeft = elmStyle.left.match(/\d/g)
+        getElmLeft = Number(getElmLeft.join(""))
+        annotation.position.x = getElmLeft
+      }
     }
 
 
@@ -277,7 +293,7 @@ class Editor {
 
     dargArea.addEventListener('touchstart', (e) => {
       const ev = e.changedTouches[0]
-      
+
       isDown = true;
       offset = [
         elm.offsetLeft - ev.clientX,
@@ -388,7 +404,7 @@ class Editor {
 
     this.editorPad.appendChild(div)
     this.removeTiggerBtnClass()
-    this.resize(div, annotation)
+    this.resize(div, annotation, 'imageType')
     this.move(div, annotation)
     this.data.push(annotation)
     this.completeBtn()
