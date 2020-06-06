@@ -246,9 +246,7 @@ class Editor {
       annotation.width = ElmWidth
       annotation.height = ElmHeight
 
-    
-
-      if (type == "textType") {
+      if (type == "textType" && this.data.length) {
         getElmLeft = elmStyle.left.match(/\d/g)
         getElmLeft = Number(getElmLeft.join(""))
       }
