@@ -90,7 +90,6 @@ window.addEventListener('load', () => {
       viewer.destroy()
       viewer.reborn(EidtedViewerPdfData)
       editor.clear()
-      editor.init()
       compalteBtn.style.display = 'none'
     })()
 
