@@ -283,6 +283,7 @@ class Editor {
         elm.offsetLeft - e.clientX,
         elm.offsetTop - e.clientY
       ]
+      elm.classList.remove('is-active')
     }, true)
 
     this.editorPad.addEventListener('mouseup', () => {
@@ -313,6 +314,7 @@ class Editor {
         elm.offsetLeft - ev.clientX,
         elm.offsetTop - ev.clientY
       ]
+      elm.classList.remove('is-active')
     })
 
     this.editorPad.addEventListener('touchend', () => {
