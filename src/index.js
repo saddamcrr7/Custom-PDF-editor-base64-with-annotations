@@ -65,7 +65,8 @@ window.addEventListener('load', () => {
               size: 16,
               color: rgb(data.color.red, data.color.green,
                 data.color.blue),
-              font: fontFormet
+              font: fontFormet,
+              maxWidth: data.width,
             })
         }
         if (data.type == 'image') {
@@ -88,8 +89,8 @@ window.addEventListener('load', () => {
       base46data = pdfBytes
       viewer.destroy()
       viewer.reborn(EidtedViewerPdfData)
-      editor.data = []
       editor.clear()
+      editor.init()
       compalteBtn.style.display = 'none'
     })()
 

@@ -40,8 +40,8 @@ class Editor {
           x: 0,
           y: 0
         },
-        width: Number,
-        height: Number,
+        width: 217,
+        height: 70,
         size: 0,
         color: {
           red: 0.011764705882352941,
@@ -260,6 +260,7 @@ class Editor {
 
       if (type == "textType" && this.data.length) {
         getElmLeft = elmStyle.left.match(/\d/g)
+        if (getElmLeft == null) return
         getElmLeft = Number(getElmLeft.join(""))
       }
 
@@ -493,6 +494,7 @@ class Editor {
   clear() {
     const annotations = document.querySelectorAll('.c-annotation')
     annotations.forEach(annotation => annotation.remove())
+    this.data = []
   }
 
   init() {
