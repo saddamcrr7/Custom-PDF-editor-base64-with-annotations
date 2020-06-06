@@ -284,7 +284,6 @@ class Editor {
         elm.offsetLeft - e.clientX,
         elm.offsetTop - e.clientY
       ]
-      elm.classList.remove('is-active')
     }, true)
 
     this.editorPad.addEventListener('mouseup', () => {
@@ -300,6 +299,7 @@ class Editor {
         };
         elm.style.left = (mousePosition.x + offset[0]) + 'px'
         elm.style.top = (mousePosition.y + offset[1]) + 'px'
+        elm.classList.remove('is-active')
 
         annotation.position.x = mousePosition.x + offset[0]
         annotation.position.y = mousePosition.y + offset[1]
@@ -315,7 +315,6 @@ class Editor {
         elm.offsetLeft - ev.clientX,
         elm.offsetTop - ev.clientY
       ]
-      elm.classList.remove('is-active')
     })
 
     this.editorPad.addEventListener('touchend', () => {
@@ -333,6 +332,7 @@ class Editor {
         }
         elm.style.left = (mousePosition.x + offset[0]) + 'px'
         elm.style.top = (mousePosition.y + offset[1]) + 'px'
+        elm.classList.remove('is-active')
 
         annotation.position.x = mousePosition.x + offset[0]
         annotation.position.y = mousePosition.y + offset[1]
