@@ -1,6 +1,5 @@
 import {
   addEvent,
-  detectMobile
 } from './components/utility'
 
 export default class TouchEvent {
@@ -92,11 +91,8 @@ export default class TouchEvent {
   }
 
   init() {
-    if (!detectMobile()) {
       this.notMobile(this.elem)
-    } else {
       this.mobile(this.elem)
-    }
   }
 
 }

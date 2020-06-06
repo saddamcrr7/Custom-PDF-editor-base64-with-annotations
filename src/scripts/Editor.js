@@ -274,6 +274,38 @@ class Editor {
       }
     }, true)
 
+
+    dargArea.addEventListener('touchstart', (e) => {
+      const ev = e.changedTouches[0]
+      
+      isDown = true;
+      offset = [
+        elm.offsetLeft - ev.clientX,
+        elm.offsetTop - ev.clientY
+      ]
+    })
+
+    this.editorPad.addEventListener('touchend', () => {
+      isDown = false;
+    })
+
+    this.editorPad.addEventListener('touchmove', (event) => {
+      event.preventDefault()
+      const ev = event.changedTouches[0]
+
+      if (isDown) {
+        mousePosition = {
+          x: ev.clientX,
+          y: ev.clientY
+        }
+        elm.style.left = (mousePosition.x + offset[0]) + 'px'
+        elm.style.top = (mousePosition.y + offset[1]) + 'px'
+
+        annotation.position.x = mousePosition.x + offset[0]
+        annotation.position.y = mousePosition.y + offset[1]
+      }
+    })
+
   }
 
   delete(elm, index) {
