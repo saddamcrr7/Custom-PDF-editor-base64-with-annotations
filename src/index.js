@@ -23,6 +23,15 @@ window.addEventListener('load', () => {
 
   const editor = new Editor()
 
+  const signatureTiggerBtn = document.querySelector(
+    '.c-editor-navbar__item--signature')
+
+  signatureTiggerBtn.addEventListener('click', () => {
+    if (viewer.viewPageIndex == viewer.pageNumber) {
+      editor.typeSignature()
+    }
+  })
+
   const compalteBtn = document.getElementById('complete-btn')
 
   compalteBtn.addEventListener('click', (e) => {
@@ -31,11 +40,15 @@ window.addEventListener('load', () => {
       const pdfDoc = await PDFDocument.load(dataUri)
       const pages = pdfDoc.getPages()
       const editPage = pages[viewer.viewPageIndex - 1]
-      
-      const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica)
-      const helveticaFontBlod = await pdfDoc.embedFont(StandardFonts.HelveticaBold)
-      const helveticaFontOblique = await pdfDoc.embedFont(StandardFonts.HelveticaOblique)
-      const HelveticaFontBoldOblique = await pdfDoc.embedFont(StandardFonts.HelveticaBoldOblique)
+
+      const helveticaFont = await pdfDoc.embedFont(StandardFonts
+        .Helvetica)
+      const helveticaFontBlod = await pdfDoc.embedFont(StandardFonts
+        .HelveticaBold)
+      const helveticaFontOblique = await pdfDoc.embedFont(
+        StandardFonts.HelveticaOblique)
+      const HelveticaFontBoldOblique = await pdfDoc.embedFont(
+        StandardFonts.HelveticaBoldOblique)
 
       const {
         width,
@@ -52,7 +65,7 @@ window.addEventListener('load', () => {
             fontFormet = helveticaFontBlod
           } else if (data.formet == 'italic') {
             fontFormet = helveticaFontOblique
-          }else if(data.formet == 'boldItalic') {
+          } else if (data.formet == 'boldItalic') {
             fontFormet = HelveticaFontBoldOblique
           } else {
             fontFormet = helveticaFont

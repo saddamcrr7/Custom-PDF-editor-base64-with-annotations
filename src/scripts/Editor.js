@@ -465,7 +465,6 @@ class Editor {
   }
 
   typeSignature() {
-    this.signatureTiggerBtn.addEventListener('click', (e) => {
       this.drawPad.close()
       this.annotationField = true
       this.annotationType = 'image'
@@ -473,7 +472,6 @@ class Editor {
       this.signatureTiggerBtn.classList.add('is-active')
       this.drawPad.open('Signature')
       this.createImageAnnotation('Signature')
-    })
   }
 
   completeBtn(display) {
@@ -501,7 +499,6 @@ class Editor {
     this.typeText()
     this.typeDate()
     this.typeInitials()
-    this.typeSignature()
   }
 }
 
