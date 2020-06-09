@@ -1,9 +1,11 @@
 .c-pagination{
+    $root: &;
+
     display: flex;
     align-items: center;
 
     &__btn {
-        cursor: pointer;
+        opacity: 0.5;
         svg {
             width: 30px;
             height: 30px;
@@ -18,5 +20,12 @@
   &__count {
       font-size: 15px;
       color: $white;
+  }
+
+  &.is-active {
+    #{$root}__btn {
+        cursor: pointer;
+        opacity: 1;
+    }
   }
 }

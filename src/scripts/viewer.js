@@ -74,6 +74,8 @@ class Viewer {
       pages[0].classList.add('is-active')
 
       canvas.addEventListener('click', () => {
+        const annotations = document.querySelectorAll('.c-annotation')
+        if(annotations.length) return
         this.scale = 1
         this.renderMainPage(index + 1)
 

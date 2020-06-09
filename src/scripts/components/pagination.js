@@ -1,5 +1,5 @@
 class Pagination {
-constructor(pagesNumber, callback) {
+  constructor(pagesNumber, callback) {
     this.index = 1
     this.pagesNumber = pagesNumber
     this.init()
@@ -33,8 +33,16 @@ constructor(pagesNumber, callback) {
     const countElm = document.querySelector('.c-pagination__count')
     countElm.innerHTML = `${this.index} / ${this.pagesNumber}`
 
-    nextBtn.addEventListener('click', () => this.next(countElm))
-    prevBtn.addEventListener('click', () => this.prev(countElm))
+    nextBtn.addEventListener('click', () => {
+      const annotations = document.querySelectorAll('.c-annotation')
+      if (annotations.length) return
+      this.next(countElm)
+    })
+    prevBtn.addEventListener('click', () => {
+      const annotations = document.querySelectorAll('.c-annotation')
+      if (annotations.length) return
+      this.prev(countElm)
+    })
   }
 
 

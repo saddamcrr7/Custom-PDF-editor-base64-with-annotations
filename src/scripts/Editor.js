@@ -512,12 +512,16 @@ class Editor {
     this.createImageAnnotation('Signature')
   }
 
-  completeBtn(display) {
+  completeBtn() {
     const Btn = document.getElementById('complete-btn')
+    const pagination = document.querySelector('.c-pagination')
+
     if (this.data.length < 1) {
       Btn.style.display = 'none'
+      pagination.classList.add('is-active')
     } else {
       Btn.style.display = 'block'
+      pagination.classList.remove('is-active')
     }
   }
 
