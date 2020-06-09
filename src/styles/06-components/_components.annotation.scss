@@ -83,6 +83,7 @@
   &__option {
     cursor: pointer;
     padding: 7px;
+    font-size: 16px;
 
     svg {
       width: 20px;
@@ -96,7 +97,6 @@
   }
 
   &__resize {
-    display: flex;
     align-items: center;
     justify-content: center;
     position: absolute;
@@ -123,7 +123,34 @@
     }
   }
 
-  &__resize-overlay {
+  &__resize-font {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border-radius: 25px;
+    bottom: 0;
+    right: 0;
+    transform: translate(50%, 50%);
+    background: transparentize($color-grey, 0.05);
+    cursor: pointer;
+    z-index: 3;
+
+    svg {
+      fill: $white;
+      width: 15px;
+      height: 15px;
+      transform: rotate(-45deg);
+    }
+
+    &:active {
+      cursor: n-resize;
+    }
+  }
+
+  &__resize-overlay, &__resize-font-overlay  {
     position: absolute;
     z-index: 2;
     top: 0;
@@ -131,7 +158,6 @@
     bottom: 0;
     left: 0;
   }
-
   &__additional {
     top: 100%;
     left: 50%;
@@ -223,7 +249,7 @@
     border: 1px solid $color-grey;
 
     #{$root}__options,
-    #{$root}__resize {
+    #{$root}__resize, #{$root}__resize-font {
       display: flex;
     }
   }
@@ -247,7 +273,7 @@
       display: flex;
     }
 
-    #{$root}__resize {
+    #{$root}__resize, #{$root}__resize-font {
       display: none;
     }
   }

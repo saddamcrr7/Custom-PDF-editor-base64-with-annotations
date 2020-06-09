@@ -11,14 +11,14 @@ import demoData from './scripts/data/demoData'
 import Viewer from './scripts/viewer'
 import Editor from './scripts/Editor'
 
-let base46data = demoData
+let inputBase46data = demoData
 
 let pdfjsLib = window['pdfjs-dist/build/pdf'];
 pdfjsLib.GlobalWorkerOptions.workerSrc =
   '//mozilla.github.io/pdf.js/build/pdf.worker.js'
 
 window.addEventListener('load', () => {
-  let rawViewerPdfData = new PdfDataProcess(base46data)
+  let rawViewerPdfData = new PdfDataProcess(inputBase46data)
   let viewer = new Viewer(rawViewerPdfData)
 
   const editor = new Editor()
@@ -36,7 +36,7 @@ window.addEventListener('load', () => {
 
   compalteBtn.addEventListener('click', (e) => {
     (async () => {
-      const dataUri = 'data:application/pdf;base64,' + base46data
+      const dataUri = 'data:application/pdf;base64,' + inputBase46data
       const pdfDoc = await PDFDocument.load(dataUri)
       const pages = pdfDoc.getPages()
       const editPage = pages[viewer.viewPageIndex - 1]
@@ -74,12 +74,13 @@ window.addEventListener('load', () => {
           editPage.drawText(
             `${data.value}`, {
               x: data.position.x + 10,
-              y: height - (data.position.y + 27),
-              size: 16,
+              y: height - (data.position.y + ( 24 / 16 * data.fontSize)),
+              size: data.fontSize,
+              lineHeight: 24 / 16 * data.fontSize,
               color: rgb(data.color.red, data.color.green,
                 data.color.blue),
               font: fontFormet,
-              maxWidth: data.width,
+              maxWidth: data.width - 20,
             })
         }
         if (data.type == 'image') {
@@ -97,9 +98,10 @@ window.addEventListener('load', () => {
         }
       })
 
-      const pdfBytes = await pdfDoc.saveAsBase64()
-      let EidtedViewerPdfData = new PdfDataProcess(pdfBytes)
-      base46data = pdfBytes
+      const outputBase46data = await pdfDoc.saveAsBase64()
+
+      let EidtedViewerPdfData = new PdfDataProcess(outputBase46data)
+      inputBase46data= outputBase46data
       viewer.destroy()
       viewer.reborn(EidtedViewerPdfData)
       editor.clear()
