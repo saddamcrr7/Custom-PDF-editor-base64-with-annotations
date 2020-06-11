@@ -41,15 +41,15 @@
 @import '04-elements/elements.links';
 
 // 05. Objects
-@import './05-objects/objects.viewer';
-@import './05-objects/objects.main';
-@import './05-objects/objects.editor-pad';
-@import './05-objects/objects.draw-pad';
+@import '05-objects/objects.viewer';
+@import '05-objects/objects.main';
+@import '05-objects/objects.editor-pad';
+@import '05-objects/objects.draw-pad';
 
 // 06. Components
-@import './06-components/components.editor-navbar';
-@import './06-components/components.pagination';
-@import './06-components/components.annotation';
+@import '06-components/components.editor-navbar';
+@import '06-components/components.pagination';
+@import '06-components/components.annotation';
 
 
 // 99. Utilities

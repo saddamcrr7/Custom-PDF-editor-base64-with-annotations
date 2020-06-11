@@ -82,12 +82,26 @@ class Editor {
       div.classList.add(`c-annotation`)
       div.classList.add(`is-active`)
       div.classList.add(`is-edit`)
-      div.classList.add(`c-annotation--${type}`)
+      div.classList.add(`c-annotation-${type}`)
       div.innerHTML = annotationDom
       div.style.top = `${e.offsetY}px`
       div.style.left = `${e.offsetX}px`
 
       this.editorPad.appendChild(div)
+
+      const resizeBtn = div.querySelector('.c-annotation__resize')
+      const resizeIcon = div.querySelector('.c-annotation__resize svg')
+      resizeBtn.style.left = '0'
+      resizeBtn.style.transform = 'translate(-50%, 50%)'
+      resizeIcon.style.transform = 'rotate(180deg)'
+
+      resizeBtn.addEventListener('mousedown', ()=> {
+        resizeBtn.style.cursor = 'nesw-resize'
+      })
+
+      resizeBtn.addEventListener('mouseup', ()=> {
+        resizeBtn.style.cursor = 'pointer'
+      })
 
       const input = div.querySelector('.c-annotation__input')
       const valueElm = div.querySelector('.c-annotation__value')
@@ -421,6 +435,8 @@ class Editor {
     div.classList.add(`c-annotation`)
     div.classList.add(`c-annotation--${type}`)
     div.innerHTML = annotationDom
+    div.style.width = `${annotation.width}px`
+    div.style.height = `${annotation.height}px`
 
     div.addEventListener('mouseleave', () => {
       div.classList.remove('is-active')
