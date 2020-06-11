@@ -309,7 +309,11 @@ class Editor {
     const fontResizeTouch = new TouchEvent('.o-editor-pad', (e) => {
       if (e.target == resizeBtnIcon) {
         ElmfontSize = getElmfontSize + e.walkY
-        elm.style.height = `${annotation.height + e.walkY}px`
+        if(ElmfontSize < 10) {
+          ElmfontSize = 10
+        }else {
+          elm.style.height = `${annotation.height + e.walkY}px`
+        }
         elm.style.fontSize = `${ElmfontSize}px`
       }
     })
