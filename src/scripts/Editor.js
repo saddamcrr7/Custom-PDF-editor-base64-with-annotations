@@ -531,7 +531,6 @@ class Editor {
   completeBtn() {
     const Btn = document.getElementById('complete-btn')
     const pagination = document.querySelector('.c-pagination')
-
     if (this.data.length < 1) {
       Btn.style.display = 'none'
       pagination.classList.add('is-active')
@@ -551,6 +550,8 @@ class Editor {
     const annotations = document.querySelectorAll('.c-annotation')
     annotations.forEach(annotation => annotation.remove())
     this.data = []
+    const pagination = document.querySelector('.c-pagination')
+    pagination.classList.add('is-active')
   }
 
   init() {
