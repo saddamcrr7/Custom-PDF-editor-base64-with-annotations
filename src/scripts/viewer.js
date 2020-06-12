@@ -74,13 +74,16 @@ class Viewer {
       pages[0].classList.add('is-active')
 
       canvas.addEventListener('click', () => {
+        pages = document.querySelectorAll('.o-viewer__page')
         this.scale = 1
         this.renderMainPage(index + 1)
 
         const countElm = document.querySelector('.c-pagination__count')
 
         countElm.innerHTML = `${index+1} / ${this.pageNumber}`
-        pages.forEach(element => element.classList.remove('is-active'));
+        pages.forEach(element => {
+          element.classList.remove('is-active') 
+        })
         pages[index].classList.add('is-active')
 
         this.viewPageIndex = index + 1

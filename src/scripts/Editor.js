@@ -57,7 +57,7 @@ class Editor {
         },
         width: 217,
         height: 70,
-        fontSize: 0,
+        fontSize: 16,
         color: {
           red: 0.011764705882352941,
           green: 0,

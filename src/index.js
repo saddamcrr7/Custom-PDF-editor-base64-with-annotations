@@ -23,24 +23,46 @@ window.addEventListener('load', () => {
 
   const editor = new Editor()
 
-  const pgBtns = document.querySelectorAll('.c-pagination__btn')
-  pgBtns.forEach(pgBtn => {
-    pgBtn.addEventListener('click', ()=> {
-      if(editor.editPageIndex == viewer.pageNumber) {
-        editor.editPageIndex = 1
-      }else {
-        editor.editPageIndex = viewer.viewPageIndex + 1
-      }
-    })
-  })
 
-  
+  function anocontainer() {
+    document.querySelectorAll('.o-annotation-container').forEach(elm => {
+      elm.classList.remove('is-active')
+    })
+    document.querySelector(
+      `.o-annotation-container--${editor.editPageIndex}`).classList.add(
+      'is-active')
+
+  }
+
+
+
+
+  setTimeout(() => {
+    const pgBtns = document.querySelectorAll('.c-pagination__btn')
+    pgBtns.forEach(pgBtn => {
+      pgBtn.addEventListener('click', () => {
+        editor.editPageIndex = viewer.viewPageIndex
+        anocontainer()
+      })
+    })
+
+    const navPages = document.querySelectorAll('.o-viewer__page')
+    navPages.forEach(navPage => {
+      navPage.addEventListener('click', () => {
+        editor.editPageIndex = viewer.viewPageIndex
+        anocontainer()
+      })
+    })
+  }, 2200)
+
+
 
   const compalteBtn = document.getElementById('complete-btn')
 
   compalteBtn.addEventListener('click', (e) => {
     (async () => {
-      const dataUri = 'data:application/pdf;base64,' + inputBase46data
+      const dataUri = 'data:application/pdf;base64,' +
+        inputBase46data
       const pdfDoc = await PDFDocument.load(dataUri)
       const pages = pdfDoc.getPages()
       const editPage = pages[viewer.viewPageIndex - 1]
@@ -75,10 +97,11 @@ window.addEventListener('load', () => {
             fontFormet = helveticaFont
           }
 
-          editPage.drawText(
+          pages[data.editPageIndex - 1].drawText(
             `${data.value}`, {
               x: data.position.x + 10,
-              y: height - (data.position.y + ( 24 / 16 * data.fontSize)),
+              y: height - (data.position.y + (24 / 16 * data
+                .fontSize)),
               size: data.fontSize,
               lineHeight: 24 / 16 * data.fontSize,
               color: rgb(data.color.red, data.color.green,
@@ -91,7 +114,7 @@ window.addEventListener('load', () => {
           (async () => {
             let image = await pdfDoc.embedPng(data.imageSrc)
 
-            editPage.drawImage(image, {
+            pages[data.editPageIndex - 1].drawImage(image, {
               x: data.position.x,
               y: height - (data.position.y + data
                 .height),
@@ -105,7 +128,7 @@ window.addEventListener('load', () => {
       const outputBase46data = await pdfDoc.saveAsBase64()
 
       let EidtedViewerPdfData = new PdfDataProcess(outputBase46data)
-      inputBase46data= outputBase46data
+      inputBase46data = outputBase46data
       viewer.destroy()
       viewer.reborn(EidtedViewerPdfData)
       editor.clear()
