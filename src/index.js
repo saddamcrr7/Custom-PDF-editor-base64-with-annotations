@@ -23,14 +23,18 @@ window.addEventListener('load', () => {
 
   const editor = new Editor()
 
-  const signatureTiggerBtn = document.querySelector(
-    '.c-editor-navbar__item--signature')
-
-  signatureTiggerBtn.addEventListener('click', () => {
-    if (viewer.viewPageIndex == viewer.pageNumber) {
-      editor.typeSignature()
-    }
+  const pgBtns = document.querySelectorAll('.c-pagination__btn')
+  pgBtns.forEach(pgBtn => {
+    pgBtn.addEventListener('click', ()=> {
+      if(editor.editPageIndex == viewer.pageNumber) {
+        editor.editPageIndex = 1
+      }else {
+        editor.editPageIndex = viewer.viewPageIndex + 1
+      }
+    })
   })
+
+  
 
   const compalteBtn = document.getElementById('complete-btn')
 

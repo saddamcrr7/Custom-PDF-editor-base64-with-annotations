@@ -1,0 +1,7 @@
+.o-annotation-container  {
+    display: none;
+
+    &.is-active {
+        display: block;
+    }
+}

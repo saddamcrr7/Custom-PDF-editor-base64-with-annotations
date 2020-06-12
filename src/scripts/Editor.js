@@ -24,10 +24,24 @@ class Editor {
     this.padSaveBtn = document.querySelector('.o-draw-pad__btn--save')
     this.annotationType = ''
     this.drawPad = new DrawPad
+    this.editPageIndex = 1
+    this.annotationContainer
+
     this.init()
+
+  }
+
+  anoContainer() {
+    document.querySelectorAll('.o-annotation-container').forEach(elm => {
+      elm.classList.remove('is-active')
+    })
+    this.annotationContainer = document.querySelector(`.o-annotation-container--${this.editPageIndex}`)
+    this.annotationContainer.classList.add('is-active')
   }
 
   createAnnotation() {
+   this.anoContainer()
+
     this.editorPad.classList.add('is-wait')
     this.editorPad.addEventListener('click', (e) => {
       this.editorPad.classList.remove('is-wait')
@@ -35,6 +49,7 @@ class Editor {
       let type = this.annotationType
 
       let annotation = {
+        editPageIndex: this.editPageIndex,
         type: '',
         position: {
           x: 0,
@@ -87,7 +102,7 @@ class Editor {
       div.style.top = `${e.offsetY}px`
       div.style.left = `${e.offsetX}px`
 
-      this.editorPad.appendChild(div)
+      this.annotationContainer.appendChild(div)
 
       const resizeBtn = div.querySelector('.c-annotation__resize')
       const resizeIcon = div.querySelector('.c-annotation__resize svg')
@@ -408,9 +423,11 @@ class Editor {
   }
 
   createImageAnnotation(adtyp) {
+    this.anoContainer()
     let type = this.annotationType
 
     let annotation = {
+      editPageIndex: this.editPageIndex,
       type: '',
       position: {
         x: 0,
@@ -477,7 +494,7 @@ class Editor {
       }
     })
 
-    this.editorPad.appendChild(div)
+    this.annotationContainer.appendChild(div)
     this.removeTiggerBtnClass()
     this.resize(div, annotation, 'imageType')
     this.move(div, annotation)
@@ -523,13 +540,15 @@ class Editor {
   }
 
   typeSignature() {
-    this.drawPad.close()
-    this.annotationField = true
-    this.annotationType = 'image'
-    this.removeTiggerBtnClass()
-    this.signatureTiggerBtn.classList.add('is-active')
-    this.drawPad.open('Signature')
-    this.createImageAnnotation('Signature')
+    this.signatureTiggerBtn.addEventListener('click', ()=> {
+      this.drawPad.close()
+      this.annotationField = true
+      this.annotationType = 'image'
+      this.removeTiggerBtnClass()
+      this.signatureTiggerBtn.classList.add('is-active')
+      this.drawPad.open('Signature')
+      this.createImageAnnotation('Signature')
+    })
   }
 
   completeBtn() {
@@ -554,14 +573,13 @@ class Editor {
     const annotations = document.querySelectorAll('.c-annotation')
     annotations.forEach(annotation => annotation.remove())
     this.data = []
-    const pagination = document.querySelector('.c-pagination')
-    pagination.classList.add('is-active')
   }
 
   init() {
     this.typeText()
     this.typeDate()
     this.typeInitials()
+    this.typeSignature()
   }
 }
 

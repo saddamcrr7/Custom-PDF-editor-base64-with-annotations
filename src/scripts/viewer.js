@@ -74,8 +74,6 @@ class Viewer {
       pages[0].classList.add('is-active')
 
       canvas.addEventListener('click', () => {
-        const annotations = document.querySelectorAll('.c-annotation')
-        if(annotations.length) return
         this.scale = 1
         this.renderMainPage(index + 1)
 
@@ -141,11 +139,11 @@ class Viewer {
 
     const navbarItems = document.querySelectorAll('.c-editor-navbar__item')
     navbarItems.forEach(navItem => {
-      navItem.addEventListener('click', ()=> {
-        if(this.scale == 1) return
-          this.scale = 1
-          this.pageRender(this.viewPageIndex, '.o-viewer__main-canvas')
-          this.updateContainerSize()
+      navItem.addEventListener('click', () => {
+        if (this.scale == 1) return
+        this.scale = 1
+        this.pageRender(this.viewPageIndex, '.o-viewer__main-canvas')
+        this.updateContainerSize()
       })
     })
   }
@@ -157,7 +155,7 @@ class Viewer {
   reborn(data) {
     this.data = data
     setTimeout(() => {
-      this.renderMainPage(this.viewPageIndex )
+      this.renderMainPage(this.viewPageIndex)
     }, 1000)
   }
 
@@ -168,6 +166,14 @@ class Viewer {
       this.renderSidebarPagesAndPagination()
       this.renderDocName()
       this.zooms()
+
+      const editorPad = document.querySelector('.o-editor-pad')
+      for (let i = 0; i < this.pageNumber; i++) {
+        const div = document.createElement('div')
+        div.classList.add('o-annotation-container')
+        div.classList.add(`o-annotation-container--${i + 1}`)
+        editorPad.append(div)
+      }
     }, 1000)
   }
 }

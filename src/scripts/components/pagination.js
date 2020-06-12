@@ -34,13 +34,9 @@ class Pagination {
     countElm.innerHTML = `${this.index} / ${this.pagesNumber}`
 
     nextBtn.addEventListener('click', () => {
-      const annotations = document.querySelectorAll('.c-annotation')
-      if (annotations.length) return
       this.next(countElm)
     })
     prevBtn.addEventListener('click', () => {
-      const annotations = document.querySelectorAll('.c-annotation')
-      if (annotations.length) return
       this.prev(countElm)
     })
   }
